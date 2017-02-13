@@ -1,0 +1,13 @@
+#!/bin/bash
+aws rds create-db-instance --db-name bdillon1dblab4p2 --db-instance-identifier bdillon1dblab4p2 --allocated-storage 5 --db-instance-class db.t2.micro --engine mysql --master-username bdillon1dblab4p2 --master-user-password aws94949494 --vpc-security-group-ids sg-922e43ee --availability-zone us-east-1d --no-publicly-accessible
+sleep 20m
+aws rds describe-db-instances | jq .DBInstances[].Endpoint.Address | grep "bdillon1powuhdb"
+sed -i 's/DB_HOST/$(!!)/g' wp-config.php
+aws ec2 run-instances --image-id ami-6edd3078 --count 1 --
+instance-type t2.micro --key-name bdillon1 --security-groups "allow ssh and
+http" --user-data script.txt
+sed -i 's/DB_NAME/bdillon1dbsed/g' wp-config.php
+sed -i 's/DB_USER/bdillon1sed/g' wp-config.php
+sed -i 's/DB_PASSWORD/bdillon1pwsed/g' wp-config.php
+aws rds describe-db-instances | jq .DBInstances[].Endpoint.Address | grep "bdillon1powuhdb"
+sed -i 's/DB_HOST/$(!!)/g' wp-config.php
